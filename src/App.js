@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import FrontendIndex from "./pages/frontend/Index";
+import BackendIndex from "./pages/backend/Index";
+import AndroidIndex from "./pages/android/Index";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App(){
+    const routerConfig = [
+        {name:"前端",path:"/frontend",exact:false,component:FrontendIndex},
+        {name:"后端",path:"/backend",exact:false,component:BackendIndex},
+        {name:"安装",path:"/android",exact:false,component:AndroidIndex},
+    ]
+    return (
+        <div className="page">
+            <Router>
+                <div className="left-menu">
+                    <h1 style={{textAlign:"center"}}>一级导航</h1>
+                    <ul>
+                        {routerConfig.map((item,index)=>(
+                            <li><Link key={index} to={item.path}>{item.name}</Link></li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="main-content">
+                    {routerConfig.map((item,index)=>(
+                        <Route key={index} path={item.path} component={item.component} />
+                    ))}
+                </div>
+            </Router>
+        </div>
+    )
 }
-
-export default App;
